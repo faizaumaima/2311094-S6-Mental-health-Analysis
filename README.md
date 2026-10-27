@@ -70,3 +70,4 @@ Every push to `main` redeploys automatically. Or deploy from your machine with `
 - **`Request failed: 500` in the app:** the backend isn't running.
 - **App at localhost:8000 shows an old version:** delete `frontend/dist`.
 - **Vercel build fails:** check **Build Logs** in the Vercel dashboard, and make sure `npm run build` works in `frontend/`.
+- 
