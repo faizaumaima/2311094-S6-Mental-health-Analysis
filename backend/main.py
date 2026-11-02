@@ -17,6 +17,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Mental Health Analysis API",
     lifespan=lifespan,
+    docs_url="/api/docs",
+    openapi_url="/api/openapi.json",
 )
 
 app.include_router(records_router)
