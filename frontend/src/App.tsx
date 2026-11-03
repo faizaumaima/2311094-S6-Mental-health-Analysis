@@ -1,94 +1,104 @@
-import { type FormEvent, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import RecordForm from "./components/RecordForm"
+import RecordList from "./components/RecordList"
+import {
+  createRecord, deleteRecord, getRecord, listRecords, updateRecord,
+} from "./services/api"
+import type { RecordInput, WellBeingRecord } from "./types/record"
 
 export default function App() {
-  const [name, setName] = useState("")
-  const [message, setMessage] = useState("")
+  const [records, setRecords] = useState<WellBeingRecord[]>([])
+  const [selected, setSelected] = useState<WellBeingRecord | null>(null)
+  const [editing, setEditing] = useState<WellBeingRecord | null>(null)
   const [error, setError] = useState("")
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    setError("")
+  const refresh = useCallback(async () => {
     try {
-      const params = new URLSearchParams({ name: name || "World" })
-      const res = await fetch(`/api/hello?${params}`)
-      if (!res.ok) throw new Error(`Request failed: ${res.status}`)
-      const data: { message: string } = await res.json()
-      setMessage(data.message)
+      setRecords(await listRecords())
+      setError("")
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong")
+      setError(err instanceof Error ? err.message : "Could not load records")
+    }
+  }, [])
+
+  useEffect(() => {
+    refresh()
+  }, [refresh])
+
+  async function handleCreate(input: RecordInput) {
+    await createRecord(input)
+    await refresh()
+  }
+
+  async function handleUpdate(input: RecordInput) {
+    if (!editing) return
+    await updateRecord(editing.id, input)
+    setEditing(null)
+    setSelected(null)
+    await refresh()
+  }
+
+  async function handleView(id: number) {
+    try {
+      setSelected(await getRecord(id))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not load record")
+    }
+  }
+
+  async function handleDelete(id: number) {
+    if (!window.confirm("Delete this record?")) return
+    try {
+      await deleteRecord(id)
+      if (selected?.id === id) setSelected(null)
+      await refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not delete record")
     }
   }
 
   return (
     <main>
-      <h1>Faiza</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
-        />
-        <button type="submit">Say hello</button>
-      </form>
-      {message && <p>{message}</p>}
+      <h1>Mental Health Analysis</h1>
+
+      <section>
+        <h2>{editing ? `Edit record #${editing.id}` : "New record"}</h2>
+        {editing ? (
+          <RecordForm
+            key={editing.id}
+            initial={editing}
+            onSubmit={handleUpdate}
+            onCancel={() => setEditing(null)}
+          />
+        ) : (
+          <RecordForm onSubmit={handleCreate} />
+        )}
+      </section>
+
       {error && <p className="error">{error}</p>}
-      {/* EXERCISE (part 2): uncomment <UserForm /> and the UserForm function below. */}
-      {/* <UserForm /> */}
+
+      <section>
+        <h2>Records</h2>
+        <RecordList
+          records={records}
+          onView={handleView}
+          onEdit={setEditing}
+          onDelete={handleDelete}
+        />
+      </section>
+
+      {selected && (
+        <section>
+          <h2>Record #{selected.id}</h2>
+          <p>Date: {selected.record_date}</p>
+          <p>Mood: {selected.mood}</p>
+          <p>Stress: {selected.stress_level}/10</p>
+          <p>Sleep: {selected.sleep_hours} hours</p>
+          <p>Note: {selected.notes ?? "(none)"}</p>
+          <p>Created: {new Date(selected.created_at).toLocaleString()}</p>
+          <button onClick={() => setSelected(null)}>Close</button>
+        </section>
+      )}
     </main>
   )
 }
-
-// function UserForm() {
-//   const [form, setForm] = useState({ id: "", name: "", email: "" })
-//   const [reply, setReply] = useState("")
-//   const [error, setError] = useState("")
-//
-//   async function handleSubmit(e: FormEvent) {
-//     e.preventDefault()
-//     setError("")
-//     setReply("")
-//     try {
-//       const res = await fetch("/api/user", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ ...form, id: Number(form.id) }),
-//       })
-//       if (!res.ok) throw new Error(`Request failed: ${res.status}`)
-//       const data: { message: string } = await res.json()
-//       setReply(data.message)
-//     } catch (err) {
-//       setError(err instanceof Error ? err.message : "Something went wrong")
-//     }
-//   }
-//
-//   return (
-//     <section>
-//       <h2>Send your details</h2>
-//       <form onSubmit={handleSubmit}>
-//         <input
-//           type="number"
-//           value={form.id}
-//           onChange={(e) => setForm({ ...form, id: e.target.value })}
-//           placeholder="ID"
-//           required
-//         />
-//         <input
-//           value={form.name}
-//           onChange={(e) => setForm({ ...form, name: e.target.value })}
-//           placeholder="Name"
-//           required
-//         />
-//         <input
-//           type="email"
-//           value={form.email}
-//           onChange={(e) => setForm({ ...form, email: e.target.value })}
-//           placeholder="Email"
-//           required
-//         />
-//         <button type="submit">Send</button>
-//       </form>
-//       {reply && <p>{reply}</p>}
-//       {error && <p className="error">{error}</p>}
-//     </section>
-//   )
-// }
