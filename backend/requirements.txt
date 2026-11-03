@@ -1,1 +1,5 @@
 fastapi[standard]>=0.141.1
+
+sqlmodel
+psycopg2-binary
+psycopg[binary]
