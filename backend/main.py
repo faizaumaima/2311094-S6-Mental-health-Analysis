@@ -6,7 +6,8 @@ from fastapi.staticfiles import StaticFiles
 
 from app.database import create_db_and_tables
 from app.records.router import router as records_router
-
+from app.auth.router import router as auth_router
+from app.admin.router import router as admin_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -22,6 +23,8 @@ app = FastAPI(
 )
 
 app.include_router(records_router)
+app.include_router(auth_router)
+app.include_router(admin_router)
 
 
 @app.get("/api/health")
