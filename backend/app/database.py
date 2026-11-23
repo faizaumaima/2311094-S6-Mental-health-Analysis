@@ -16,6 +16,8 @@ def get_engine() -> Engine:
 
 def create_db_and_tables() -> None:
     from app.records import models  # noqa: F401
+    from app.auth import models as auth_models  # noqa: F401
+    from app.admin import models as admin_models  # noqa: F401
 
     SQLModel.metadata.create_all(get_engine())
 
