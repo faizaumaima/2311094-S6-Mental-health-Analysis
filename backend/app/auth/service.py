@@ -46,6 +46,11 @@ def authenticate_user(
     ).first()
 
     if not user or not verify_password(password, user.password_hash):
+        if user:
+            user.failed_login_count += 1
+            session.add(user)
+            session.commit()
+
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password",

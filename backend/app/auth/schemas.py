@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
@@ -35,3 +36,11 @@ class RefreshRequest(BaseModel):
 class PasswordChange(BaseModel):
     current_password: str
     new_password: str = Field(min_length=8, max_length=128)
+
+class UserProfileUpdate(BaseModel):
+    name: str = Field(min_length=2, max_length=100)
+
+class AuthSessionResponse(BaseModel):
+    id: int
+    expires_at: datetime
+    created_at: datetime

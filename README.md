@@ -71,3 +71,46 @@ Every push to `main` redeploys automatically. Or deploy from your machine with `
 - **App at localhost:8000 shows an old version:** delete `frontend/dist`.
 - **Vercel build fails:** check **Build Logs** in the Vercel dashboard, and make sure `npm run build` works in `frontend/`.
 - 
+## Demo Data
+
+The application supports role-based access with Admin and User accounts.
+
+### Sample Accounts
+
+| User ID | Email | Role |
+|---|---|---|
+| 3 | demo.account2026@example.com | Admin |
+| 5 | ownership.test2026@example.com | Admin |
+| 1 | user@example.com | User |
+| 2 | testuser@example.com | User |
+| 4 | production.test2027@example.com | User |
+
+Passwords are provided separately through the project submission materials and are not stored in this README.
+
+### Sample Group
+
+A demonstration group can contain:
+- One group owner
+- Multiple group members
+- Different permissions for each member
+
+Available permissions:
+- `can_create`: Create group records
+- `can_edit`: Edit group records
+- `can_assign`: Assign records to group members
+
+### Sample Records
+
+Demo records represent general well-being information, such as:
+- Daily mood
+- Stress level
+- Sleep quality
+- Personal notes
+
+### Security
+
+- Users can access their own personal records.
+- Group members can access group records according to their permissions.
+- Admin-only endpoints are protected by role-based authorization.
+- Passwords are stored as hashes.
+- Failed login attempts and administrative actions are recorded in audit logs.
