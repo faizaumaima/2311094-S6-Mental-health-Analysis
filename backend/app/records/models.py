@@ -17,3 +17,13 @@ class WellBeingRecord(SQLModel, table=True):
         default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(DateTime(timezone=True), nullable=False),
     )
+    owner_id: int | None = Field(
+        default=None,
+        foreign_key="app_user.id",
+        index=True,
+    )
+    group_id: int | None = Field(
+        default=None,
+        foreign_key="groups.id",
+        index=True,
+    )
