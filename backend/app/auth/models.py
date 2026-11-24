@@ -13,6 +13,8 @@ class User(SQLModel, table=True):
     password_hash: str
     role: str = Field(default="user", index=True)
     is_active: bool = Field(default=True)
+    ban_reason: str | None = Field(default=None)
+    failed_login_count: int = Field(default=0)
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc)
     )
