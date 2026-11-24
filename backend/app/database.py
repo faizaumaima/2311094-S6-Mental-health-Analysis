@@ -1,10 +1,14 @@
 import os
+from pathlib import Path
 from collections.abc import Iterator
 from functools import lru_cache
 
+from dotenv import load_dotenv
 from sqlalchemy import Engine
 from sqlalchemy.pool import NullPool
 from sqlmodel import Session, SQLModel, create_engine
+
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 
 @lru_cache

@@ -8,6 +8,8 @@ from app.database import create_db_and_tables
 from app.records.router import router as records_router
 from app.auth.router import router as auth_router
 from app.admin.router import router as admin_router
+from app.groups import models as group_models  # noqa: F401
+from app.groups.router import router as groups_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,7 +27,7 @@ app = FastAPI(
 app.include_router(records_router)
 app.include_router(auth_router)
 app.include_router(admin_router)
-
+app.include_router(groups_router)
 
 @app.get("/api/health")
 def health():
