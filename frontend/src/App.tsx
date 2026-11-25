@@ -1,104 +1,58 @@
-import { useCallback, useEffect, useState } from "react"
-import RecordForm from "./components/RecordForm"
-import RecordList from "./components/RecordList"
+
 import {
-  createRecord, deleteRecord, getRecord, listRecords, updateRecord,
-} from "./services/api"
-import type { RecordInput, WellBeingRecord } from "./types/record"
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom"
+
+import { AuthProvider, useAuth } from "./context/AuthContext"
+import RequireAuth from "./components/RequireAuth"
+import Layout from "./components/Layout"
+
+import Login from "./pages/Login"
+import Register from "./pages/Register"
+import Records from "./pages/Records"
+import Profile from "./pages/Profile"
+import Groups from "./pages/Groups"
+import Admin from "./pages/Admin"
+import NotFound from "./pages/NotFound"
+
+function RequireAdmin() {
+  const { user } = useAuth()
+
+  if (user?.role !== "admin") {
+    return <Navigate to="/records" replace />
+  }
+
+  return <Outlet />
+}
 
 export default function App() {
-  const [records, setRecords] = useState<WellBeingRecord[]>([])
-  const [selected, setSelected] = useState<WellBeingRecord | null>(null)
-  const [editing, setEditing] = useState<WellBeingRecord | null>(null)
-  const [error, setError] = useState("")
-
-  const refresh = useCallback(async () => {
-    try {
-      setRecords(await listRecords())
-      setError("")
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not load records")
-    }
-  }, [])
-
-  useEffect(() => {
-    refresh()
-  }, [refresh])
-
-  async function handleCreate(input: RecordInput) {
-    await createRecord(input)
-    await refresh()
-  }
-
-  async function handleUpdate(input: RecordInput) {
-    if (!editing) return
-    await updateRecord(editing.id, input)
-    setEditing(null)
-    setSelected(null)
-    await refresh()
-  }
-
-  async function handleView(id: number) {
-    try {
-      setSelected(await getRecord(id))
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not load record")
-    }
-  }
-
-  async function handleDelete(id: number) {
-    if (!window.confirm("Delete this record?")) return
-    try {
-      await deleteRecord(id)
-      if (selected?.id === id) setSelected(null)
-      await refresh()
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not delete record")
-    }
-  }
-
   return (
-    <main>
-      <h1>Mental Health Analysis</h1>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-      <section>
-        <h2>{editing ? `Edit record #${editing.id}` : "New record"}</h2>
-        {editing ? (
-          <RecordForm
-            key={editing.id}
-            initial={editing}
-            onSubmit={handleUpdate}
-            onCancel={() => setEditing(null)}
-          />
-        ) : (
-          <RecordForm onSubmit={handleCreate} />
-        )}
-      </section>
+          <Route element={<RequireAuth />}>
+            <Route element={<Layout />}>
+              <Route path="/records" element={<Records />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/groups" element={<Groups />} />
 
-      {error && <p className="error">{error}</p>}
+              <Route element={<RequireAdmin />}>
+                <Route path="/admin" element={<Admin />} />
+              </Route>
+            </Route>
+          </Route>
 
-      <section>
-        <h2>Records</h2>
-        <RecordList
-          records={records}
-          onView={handleView}
-          onEdit={setEditing}
-          onDelete={handleDelete}
-        />
-      </section>
-
-      {selected && (
-        <section>
-          <h2>Record #{selected.id}</h2>
-          <p>Date: {selected.record_date}</p>
-          <p>Mood: {selected.mood}</p>
-          <p>Stress: {selected.stress_level}/10</p>
-          <p>Sleep: {selected.sleep_hours} hours</p>
-          <p>Note: {selected.notes ?? "(none)"}</p>
-          <p>Created: {new Date(selected.created_at).toLocaleString()}</p>
-          <button onClick={() => setSelected(null)}>Close</button>
-        </section>
-      )}
-    </main>
+          <Route path="/" element={<Navigate to="/records" replace />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }

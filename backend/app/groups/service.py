@@ -213,3 +213,35 @@ def delete_group(session, group):
 
     session.delete(group)
     session.commit()
+
+def rename_group(session: Session, group: Group, name: str) -> Group:
+    group.name = name
+    session.add(group)
+    session.commit()
+    session.refresh(group)
+    return group
+
+
+def list_group_members(session: Session, group_id: int) -> list[dict]:
+    statement = (
+        select(GroupMembership, User)
+        .join(User, User.id == GroupMembership.user_id)
+        .where(GroupMembership.group_id == group_id)
+        .order_by(User.name)
+    )
+    results = session.exec(statement).all()
+
+    return [
+        {
+            "id": membership.id,
+            "group_id": membership.group_id,
+            "user_id": member.id,
+            "name": member.name,
+            "email": member.email,
+            "can_create": membership.can_create,
+            "can_edit": membership.can_edit,
+            "can_assign": membership.can_assign,
+            "created_at": membership.created_at,
+        }
+        for membership, member in results
+    ]

@@ -7,6 +7,7 @@ from app.database import get_session
 from app.groups import service
 from app.groups.schemas import (
     GroupIn,
+    GroupRename,
     MemberIn,
     PermissionsIn,
     AssignIn,
@@ -39,6 +40,28 @@ def list_groups(
 ):
     return service.list_groups(session, user)
 
+
+@router.get("/{group_id}/members")
+def list_group_members(
+    group_id: int,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    group = get_group_or_404(session, group_id)
+    require_group_access(session, group, user)
+    return service.list_group_members(session, group_id)
+
+
+@router.put("/{group_id}")
+def rename_group(
+    group_id: int,
+    data: GroupRename,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    group = get_group_or_404(session, group_id)
+    require_group_owner(group, user)
+    return service.rename_group(session, group, data.name)
 
 @router.post("/{group_id}/members", status_code=status.HTTP_201_CREATED)
 def add_member(
