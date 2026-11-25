@@ -1,4 +1,4 @@
-import type { RecordInput, WellBeingRecord } from "./record"
+﻿import type { RecordInput, WellBeingRecord } from "./record"
 
 export interface Group {
   id: number
@@ -17,6 +17,17 @@ export interface GroupMembership {
   created_at: string
 }
 
+export interface GroupMember {
+  id: number
+  group_id: number
+  user_id: number
+  name: string
+  email: string
+  can_create: boolean
+  can_edit: boolean
+  can_assign: boolean
+  created_at: string
+}
 export interface GroupRecordAssignment {
   id: number
   record_id: number

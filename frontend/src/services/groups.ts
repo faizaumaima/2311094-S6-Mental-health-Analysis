@@ -1,6 +1,7 @@
-import { request } from "./http"
+﻿import { request } from "./http"
 import type {
   Group,
+  GroupMember,
   GroupInput,
   MemberInput,
   PermissionsInput,
@@ -16,6 +17,16 @@ export function listGroups(): Promise<Group[]> {
   return request<Group[]>(`${BASE}/`)
 }
 
+export function listGroupMembers(groupId: number): Promise<GroupMember[]> {
+  return request<GroupMember[]>(`${BASE}/${groupId}/members`)
+}
+
+export function renameGroup(groupId: number, name: string): Promise<Group> {
+  return request<Group>(`${BASE}/${groupId}`, {
+    method: "PUT",
+    body: JSON.stringify({ name }),
+  })
+}
 export function createGroup(data: GroupInput): Promise<Group> {
   return request<Group>(`${BASE}/`, {
     method: "POST",
