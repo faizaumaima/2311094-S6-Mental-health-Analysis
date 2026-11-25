@@ -1,116 +1,42 @@
-# FastAPI + React Template
+# Mental Health Analysis
 
-FastAPI backend + Vite/React/TypeScript frontend, deployed to Vercel as one project.
+A web-based application for recording and managing personal well-being information, including mood, stress levels, sleep hours, and notes.
 
-```
-backend/    FastAPI app (routes under /api)
-frontend/   Vite + React + TypeScript
-vercel.json Vercel setup: /api/* goes to backend, everything else to frontend
-```
+## Features
 
-## Requirements
+- User registration and JWT-based login
+- Personal records CRUD operations
+- Mood, stress, sleep, and notes tracking
+- Group creation and member management
+- Group member permissions
+- Role-Based Access Control (User and Admin)
+- Admin dashboard and user management
+- Audit logs
+- Record ownership protection
 
-- [Python](https://www.python.org/downloads/) 3.10+
-- [Node.js](https://nodejs.org/) 22+
+## Technology Stack
 
-> On macOS/Linux, use `python3` instead of `python`.
+- Frontend: React, TypeScript, Vite
+- Backend: Python, FastAPI
+- Database: Supabase PostgreSQL
+- ORM: SQLModel
+- Authentication: JWT
+- Deployment: Vercel
 
-## Run locally
+## Project Structure
 
-**Backend** (terminal 1):
+- `backend/` - FastAPI backend
+- `frontend/` - React and TypeScript frontend
+- `docs/` - Project documentation
+- `vercel.json` - Vercel configuration
+
+## Local Setup
+
+### Backend
 
 ```bash
 cd backend
 python -m venv .venv
-.venv\Scripts\Activate.ps1      # macOS/Linux: source .venv/bin/activate
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 fastapi dev main.py
-```
-
-**Frontend** (terminal 2):
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open http://localhost:5173 and click **Say hello**. Vite forwards `/api` requests to the backend on port 8000.
-
-To run it the way Vercel does instead, from the project root:
-
-```bash
-npm install -g vercel
-vercel dev -L
-```
-
-> Add new Python packages to `backend/requirements.txt`.
-
-## Class exercise
-
-Send an ID, name and email from React to FastAPI and show the reply.
-
-1. In `backend/main.py`, uncomment the `EXERCISE (part 1)` block. Try `POST /api/user` at http://localhost:8000/docs.
-2. In `frontend/src/App.tsx`, uncomment `<UserForm />` and the `UserForm` function (`EXERCISE (part 2)`).
-3. Fill in the form at http://localhost:5173 and click **Send**.
-
-Try an invalid email (send it from `/docs`, since the browser blocks it in the form): FastAPI returns `422` without any extra code.
-
-## Deploy to Vercel
-
-1. Push the repo to GitHub.
-2. Go to https://vercel.com/new, import the repo and click **Deploy**. Keep **Root Directory** as `./`.
-
-Every push to `main` redeploys automatically. Or deploy from your machine with `vercel --prod`.
-
-## Troubleshooting
-
-- **"Running scripts is disabled" in PowerShell:** run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
-- **`fastapi` not found:** activate the virtual environment first.
-- **`Request failed: 500` in the app:** the backend isn't running.
-- **App at localhost:8000 shows an old version:** delete `frontend/dist`.
-- **Vercel build fails:** check **Build Logs** in the Vercel dashboard, and make sure `npm run build` works in `frontend/`.
-- 
-## Demo Data
-
-The application supports role-based access with Admin and User accounts.
-
-### Sample Accounts
-
-| User ID | Email | Role |
-|---|---|---|
-| 3 | demo.account2026@example.com | Admin |
-| 5 | ownership.test2026@example.com | Admin |
-| 1 | user@example.com | User |
-| 2 | testuser@example.com | User |
-| 4 | production.test2027@example.com | User |
-
-Passwords are provided separately through the project submission materials and are not stored in this README.
-
-### Sample Group
-
-A demonstration group can contain:
-- One group owner
-- Multiple group members
-- Different permissions for each member
-
-Available permissions:
-- `can_create`: Create group records
-- `can_edit`: Edit group records
-- `can_assign`: Assign records to group members
-
-### Sample Records
-
-Demo records represent general well-being information, such as:
-- Daily mood
-- Stress level
-- Sleep quality
-- Personal notes
-
-### Security
-
-- Users can access their own personal records.
-- Group members can access group records according to their permissions.
-- Admin-only endpoints are protected by role-based authorization.
-- Passwords are stored as hashes.
-- Failed login attempts and administrative actions are recorded in audit logs.
