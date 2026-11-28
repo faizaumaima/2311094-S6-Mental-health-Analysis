@@ -6,9 +6,13 @@
 **Institution:** Independent University, Bangladesh  
 **Semester:** Autumn 2026  
 **Submitted by:** Faiza Umaima
+
 **ID:** 2311094
+
 **Section:** 06
+
 **Submitted to:**  Sayef Reyadh
+
 **Submission date:** 28/11/2026
 
 
@@ -1183,15 +1187,4 @@ REFRESH_TOKEN_DAYS=7
 FRONTEND_ORIGIN=
 ```
 
-## Appendix C – Final Submission Checklist
 
-- [ ] Replace all cover-page placeholders.
-- [ ] Confirm course, semester, faculty, student, and group details.
-- [ ] Confirm all described features against the final deployed application.
-- [ ] Insert genuine screenshots S1–S21 where available.
-- [ ] Mark unavailable or unimplemented evidence honestly.
-- [ ] Add any remaining verified issue and PR links.
-- [ ] Check that no password, token, database URL, or secret value appears in the report.
-- [ ] Add page numbers and update the Table of Contents in the final PDF.
-- [ ] Export the completed report to PDF.
-- [ ] Submit both `FINAL_REPORT.md` and the PDF as instructed by the faculty.
