@@ -4,13 +4,13 @@
 **Course:** CSE309 – Web Application & Internet  
 **Department:** Computer Science & Engineering  
 **Institution:** Independent University, Bangladesh  
-**Semester:** [Insert semester]  
-**Submitted by:** [Insert student name and ID]  
-**Group members:** [Insert names and IDs, if applicable]  
-**Submitted to:** [Insert faculty name]  
-**Submission date:** [Insert date]
+**Semester:** Autumn 2026  
+**Submitted by:** Faiza Umaima
+**ID:** 2311094
+**Section:** 06
+**Submitted to:**  Sayef Reyadh
+**Submission date:** 28/11/2026
 
-> **Report preparation note:** Replace every `[Insert ...]` field, add the actual screenshots listed in Part D, and verify the final deployed version before submission. This report describes the implementation inspected during preparation. It does not claim that unimplemented items or automated tests exist.
 
 ---
 
@@ -53,7 +53,32 @@
 - Appendix
 
 ---
+## List of Figures
 
+
+- Figure S1 – Login validation
+- Figure S2 – Personal records
+- Figure S3 – Profile and password validation
+- Figure S4 – Session management
+- Figure S5 – Group members and permissions
+- Figure S6 – Group permission denial
+- Figure S7 – Access-token request and expiry behavior
+- Figure S8 – Refresh-token cookie requirement (not implemented in current version)
+- Figure S9 – Banned-user access rejection
+- Figure S10 – Admin dashboard
+- Figure S11 – Admin user management
+- Figure S12 – Ban user
+- Figure S13 – Unban user
+- Figure S14 – Change user role
+- Figure S15 – CSV export
+- Figure S16 – Admin record management
+- Figure S17 – Admin group and audit-log management
+- Figure S18 – Vercel project
+- Figure S19 – Deployment environment variable names
+- Figure S20 – API documentation
+- Figure S21 – Automated tests (not available in inspected repository)
+
+---
 # Executive Summary
 
 The **Mental Health Analysis System** is a web application that allows registered users to record and review basic well-being information, including mood, stress level, sleep duration, date, and optional notes. The system provides personal record management, group collaboration with permission controls, user profile and session management, and an administrator dashboard.
@@ -971,7 +996,7 @@ Add the actual screenshots in Part D. Do not create or label a screenshot as evi
 | S4 | Sessions page showing active sessions and own-session revoke control | ![S4 - Active Sessions](screenshots/Screenshot%202026-11-27%20164128.png) |
 | S5 | Groups page showing members and permission controls | ![S5 - Group Members and Permissions](screenshots/Screenshot%202026-11-27%20180013.png) |
 | S6 | Evidence of a denied group permission request (403 or equivalent) | ![S6 - Group Permission Denied](screenshots/Screenshot%202026-11-27%20183622.png) |
-| S7 | Network request showing masked Authorization header and expired-token 401 behavior | ![S7 - Authorization Header](screenshots/Screenshot%202026-11-27%20191021.png) ![S7 - Expired Token 401](screenshots/Screenshot%202026-11-27%20190803.png) |
+| S7 | Network request showing masked Authorization header and expired-token 401 behavior | ![S7 - Expired Token 401](screenshots/Screenshot%202026-11-27%20190803.png) |
 | S8 | Refresh request showing a new token and an `httpOnly` cookie | **Not implemented as specified:** current frontend stores refresh token in localStorage and sends it in JSON |
 | S9 | Evidence that a banned user is rejected on a subsequent protected request | ![S9 - Banned User](screenshots/Screenshot%202026-11-27%20191834.png) ![S9 - Inactive User Request Rejected](screenshots/Screenshot%202026-11-27%20193045.png) |
 | S10 | Admin dashboard overview/statistics | ![S10 - Admin Dashboard Statistics](screenshots/Screenshot%202026-11-27%20193321.png) |
@@ -987,31 +1012,6 @@ Add the actual screenshots in Part D. Do not create or label a screenshot as evi
 | S20 | Deployed API documentation at `/api/docs` | ![S20 - Deployed API Documentation](screenshots/Screenshot%202026-11-27%20201733.png) |
 | S21 | Automated test run | **No automated test files were found in the inspected repository.** Do not fabricate this screenshot. If the faculty requires S21, ask whether a documented manual test run is acceptable or add genuine automated tests first. |
 
-## List of Figures
-
-Populate this list after inserting the screenshots.
-
-- Figure S1 – Login validation
-- Figure S2 – Personal records
-- Figure S3 – Profile and password validation
-- Figure S4 – Session management
-- Figure S5 – Group members and permissions
-- Figure S6 – Group permission denial
-- Figure S7 – Access-token request and expiry behavior
-- Figure S8 – Refresh-token cookie requirement (not implemented in current version)
-- Figure S9 – Banned-user access rejection
-- Figure S10 – Admin dashboard
-- Figure S11 – Admin user management
-- Figure S12 – Ban user
-- Figure S13 – Unban user
-- Figure S14 – Change user role
-- Figure S15 – CSV export
-- Figure S16 – Admin record management
-- Figure S17 – Admin group and audit-log management
-- Figure S18 – Vercel project
-- Figure S19 – Deployment environment variable names
-- Figure S20 – API documentation
-- Figure S21 – Automated tests (not available in inspected repository)
 
 ---
 
@@ -1095,8 +1095,13 @@ Links:
 
 Add any other relevant issue and pull-request links required by the course:
 
-- Issue links: [Insert verified issue links]
-- Additional PR links: [Insert verified PR links]
+- Issue links:
+  - Issue #16: https://github.com/faizaumaima/2311094-S6-Mental-health-Analysis/issues/16
+  - Issue #18: https://github.com/faizaumaima/2311094-S6-Mental-health-Analysis/issues/18
+
+- Additional PR links:
+  - PR #19: https://github.com/faizaumaima/2311094-S6-Mental-health-Analysis/pull/19
+  - PR #22: https://github.com/faizaumaima/2311094-S6-Mental-health-Analysis/pull/22
 
 ## E3. Known Limitations
 
@@ -1150,7 +1155,7 @@ These are proposed future improvements, not current implemented features.
 
 ### AI tool usage disclosure
 
-[Complete this section truthfully according to the course policy. If AI tools were used for brainstorming, explanation, debugging assistance, code suggestions, or report drafting, describe the specific uses. Do not claim that AI generated or tested functionality that was not independently reviewed and verified.]
+Used Chatgpt as an assistance tool for planning, explanation, and report drafting; project implementation and claims must be checked by the student against the actual code and deployed application.  
 
 ---
 
@@ -1158,7 +1163,7 @@ These are proposed future improvements, not current implemented features.
 
 ## Appendix A – Test Account Information (Private Submission Copy Only)
 
-The faculty's requested test-account details should be provided only in the private appendix or submission channel specified by the instructor. Do not place passwords, real tokens, or secret values in the public GitHub repository or this Markdown file.
+ The user IDs and passwords are in the PDF report.
 
 | Account role | Account email / identifier | Password |
 |---|---|---|
