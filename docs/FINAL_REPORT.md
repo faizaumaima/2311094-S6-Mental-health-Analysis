@@ -1171,8 +1171,8 @@ Used Chatgpt as an assistance tool for planning, explanation, and report draftin
 
 | Account role | Account email / identifier | Password |
 |---|---|---|
-| Administrator demo account | [Provide privately if required] | [Provide privately; do not commit] |
-| Normal user demo account | [Provide privately if required] | [Provide privately; do not commit] |
+| Admin |demo.account2026@example.com | [Provide privately; do not commit] |
+| User | group.outsider2026@example.com | [Provide privately; do not commit] |
 
 ## Appendix B – Environment Configuration Reference
 
